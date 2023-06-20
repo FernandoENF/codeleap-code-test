@@ -11,6 +11,10 @@ module.exports = {
         'light-gray-codeleap': '#CCCCCC',
         'gray-codeleap': '#DDDDDD',
         'blue-codeleap': '#7695EC',
+        'light-black-codeleap': '#777777',
+        'black-codeleap': '#999999',
+        'red-codeleap': '#FF5151',
+        'green-codeleap': '#47B960',
       },
       fontFamily: {
         roboto: 'var(--font-roboto)',

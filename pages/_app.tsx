@@ -7,7 +7,9 @@ const roboto = Roboto({ subsets: ['latin'], variable: '--font-roboto' })
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <main className={`${roboto.variable} h-screen w-screen font-roboto`}>
+    <main
+      className={`${roboto.variable} min-w-screen min-h-screen font-roboto`}
+    >
       <Component {...pageProps} />
     </main>
   )

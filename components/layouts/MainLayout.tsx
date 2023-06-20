@@ -1,10 +1,20 @@
-import { FC, ReactNode } from 'react'
+import { FC, ReactNode, useContext } from 'react'
+import {
+  EditModalContext,
+  EditModalProvider,
+} from '@/components/providers/EditModalProvider'
+import {
+  DeleteModalContext,
+  DeleteModalProvider,
+} from '@/components/providers/DeleteModalProvider'
+import EditPostModal from '@/components/modals/EditPostModal'
+import DeletePostModal from '@/components/modals/DeletePostModal'
 
 interface MainLayoutProps {
   children: ReactNode
 }
 
-const RootLayout: FC<MainLayoutProps> = ({ children }) => {
+const MainLayout: FC<MainLayoutProps> = ({ children }) => {
   return (
     <div className="flex w-[800px] max-w-full flex-col self-start">
       <header
@@ -14,7 +24,9 @@ const RootLayout: FC<MainLayoutProps> = ({ children }) => {
         <h1>CodeLeap Network</h1>
       </header>
       {children}
+      <EditPostModal />
+      <DeletePostModal />
     </div>
   )
 }
-export default RootLayout
+export default MainLayout

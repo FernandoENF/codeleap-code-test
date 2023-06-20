@@ -1,16 +1,16 @@
-import { FC, ReactNode } from 'react'
+import { FC, ReactNode, useContext } from 'react'
 import { Dialog } from '@headlessui/react'
 import Button from '@/components/buttons/Button'
+import { EditModalContext } from '@/components/providers/EditModalProvider'
+import { DeleteModalContext } from '@/components/providers/DeleteModalProvider'
 
-interface DeletePostModalProps {
-  isOpen: boolean
-  setIsOpen: Function
-}
+interface DeletePostModalProps {}
 
-const DeletePostModal: FC<DeletePostModalProps> = ({ isOpen, setIsOpen }) => {
+const DeletePostModal: FC<DeletePostModalProps> = () => {
+  const { isOpen, setIsOpen } = useContext(DeleteModalContext)
   return (
     <Dialog
-      open={isOpen}
+      open={isOpen ?? false}
       onClose={() => setIsOpen(false)}
       className="relative z-50"
     >

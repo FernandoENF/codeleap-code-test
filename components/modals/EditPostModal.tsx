@@ -1,18 +1,18 @@
-import { FC, ReactNode } from 'react'
+import { FC, ReactNode, useContext } from 'react'
 import { Dialog } from '@headlessui/react'
 import Button from '@/components/buttons/Button'
 import Input from '@/components/inputs/Input'
 import TextArea from '@/components/inputs/TextArea'
+import { EditModalContext } from '@/components/providers/EditModalProvider'
+import { DeleteModalContext } from '@/components/providers/DeleteModalProvider'
 
-interface EditPostModalProps {
-  isOpen: boolean
-  setIsOpen: Function
-}
+interface EditPostModalProps {}
 
-const EditPostModal: FC<EditPostModalProps> = ({ isOpen, setIsOpen }) => {
+const EditPostModal: FC<EditPostModalProps> = () => {
+  const { isOpen, setIsOpen } = useContext(EditModalContext)
   return (
     <Dialog
-      open={isOpen}
+      open={isOpen ?? false}
       onClose={() => setIsOpen(false)}
       className="relative z-50"
     >

@@ -6,7 +6,7 @@ interface RootLayoutProps {
 
 const RootLayout: FC<RootLayoutProps> = ({ children }) => {
   return (
-    <div className="flex h-full w-full items-center justify-center bg-gray-codeleap">
+    <div className="min-w-screen flex min-h-screen items-center justify-center bg-gray-codeleap">
       {children}
     </div>
   )

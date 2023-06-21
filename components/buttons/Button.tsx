@@ -23,10 +23,13 @@ const Button: FC<ButtonProps> = ({
         disabled
           ? 'bg-black-codeleap text-white'
           : {
-              'bg-blue-codeleap text-white': variant === 'primary',
-              'bg-red-codeleap text-white': variant === 'danger',
-              'bg-green-codeleap text-white': variant === 'success',
-              'border border-black-codeleap bg-white text-black':
+              'bg-blue-codeleap text-white hover:bg-blue-700':
+                variant === 'primary',
+              'bg-red-codeleap text-white hover:bg-red-700':
+                variant === 'danger',
+              'bg-green-codeleap text-white hover:bg-green-700':
+                variant === 'success',
+              'border border-black-codeleap bg-white text-black hover:bg-gray-200':
                 variant === 'secondary',
             },
       )}

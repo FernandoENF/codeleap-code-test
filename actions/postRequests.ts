@@ -11,9 +11,23 @@ export async function CreatePost(post: IPost) {
 }
 
 export async function EditPost(post: IPost) {
-  return await api.patch(`/careers/${post.id}`, post).then((res) => res.data)
+  const { title, content } = post
+  return await api
+    .patch(
+      `/careers/${post.id}/`,
+      { title, content },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    )
+    .then((res) => res.data)
+    .catch((err) => {
+      console.log(err.response)
+    })
 }
 
-export async function RemovePost(postId: IPost) {
-  return await api.delete(`/careers/${postId}`).then((res) => res.data)
+export async function RemovePost(postId: number) {
+  return await api.delete(`/careers/${postId}/`).then((res) => res.data)
 }

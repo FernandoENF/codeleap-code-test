@@ -2,13 +2,22 @@ import RootLayout from '@/components/layouts/RootLayout'
 import Button from '@/components/buttons/Button'
 import Input from '@/components/inputs/Input'
 import { useDispatch } from 'react-redux'
-import { useCallback } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import { enterUsername } from '@/actions/userActions'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
+import toast from 'react-hot-toast'
 
 export default function Signup() {
   const router = useRouter()
+  const showToast = useRef(true)
+  const error = router.query
+  useEffect(() => {
+    if (error?.error === 'notAuthenticated' && showToast.current) {
+      toast.error('You must log in to see the posts page!')
+      showToast.current = false
+    }
+  }, [error, showToast])
 
   const dispatch = useDispatch()
 

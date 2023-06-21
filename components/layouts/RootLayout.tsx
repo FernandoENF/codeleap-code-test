@@ -1,4 +1,5 @@
 import { FC, ReactNode } from 'react'
+import Head from 'next/head'
 
 interface RootLayoutProps {
   children: ReactNode
@@ -6,9 +7,14 @@ interface RootLayoutProps {
 
 const RootLayout: FC<RootLayoutProps> = ({ children }) => {
   return (
-    <div className="min-w-screen flex min-h-screen items-center justify-center bg-gray-codeleap">
-      {children}
-    </div>
+    <>
+      <Head>
+        <title>CodeLeap network</title>
+      </Head>
+      <div className="min-w-screen flex min-h-screen items-center justify-center bg-gray-codeleap">
+        {children}
+      </div>
+    </>
   )
 }
 export default RootLayout

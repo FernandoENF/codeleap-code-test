@@ -7,12 +7,13 @@ import { useSelector } from 'react-redux'
 import PostCard from '@/components/cards/PostCard'
 import { IState } from '@/redux/store'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { IPost } from '@/types/postData'
 import { InView } from 'react-intersection-observer'
-import { GetPosts } from '@/actions/postRequests'
-import useSWRInfinite from 'swr/infinite'
+import { CreatePost, GetPosts } from '@/actions/postRequests'
+import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query'
+import toast from 'react-hot-toast'
 
 export default function MainPage() {
   const router = useRouter()
@@ -37,42 +38,48 @@ export default function MainPage() {
     title: string
     content: string
   }> = async (newData) => {
-    mutate()
+    CreatePost(newData).then(() => {
+      queryClient.invalidateQueries(['posts'])
+      toast.success('Post created successfully!')
+    })
   }
 
   useEffect(() => {
     if (!username) {
-      router.replace('/')
+      router.replace('/?error=notAuthenticated')
     }
   }, [])
 
-  const [hasNextPage, setHasNextPage] = useState<boolean>(true)
-  const getKey = (pageIndex: any, previousPageData: any) => {
-    if (previousPageData && !previousPageData.results.length) return null
-    if (pageIndex === 0) {
-      return `/careers/`
-    }
-    return `/careers/?limit=10&offset=${pageIndex * 10}`
-  }
-
-  const { data, isLoading, mutate, size, setSize } = useSWRInfinite(
-    getKey,
-    async (url: string) => {
-      return GetPosts(url).then((res) => {
-        return res
-      })
+  const {
+    status,
+    data,
+    error,
+    isFetching,
+    isFetchingNextPage,
+    isFetchingPreviousPage,
+    fetchNextPage,
+    fetchPreviousPage,
+    hasNextPage,
+    hasPreviousPage,
+  } = useInfiniteQuery(
+    ['posts'],
+    ({ pageParam = 0 }) => {
+      return GetPosts('/careers/?limit=10&offset=' + pageParam * 10)
+    },
+    {
+      getPreviousPageParam: (firstPage) => undefined,
+      getNextPageParam: (lastPage, allPages) =>
+        lastPage.next ? allPages.length : undefined,
     },
   )
 
-  const posts = data ? [].concat(...data.map((page) => page.results)) : []
+  const queryClient = useQueryClient()
+
+  const posts = data ? [].concat(...data.pages.map((page) => page.results)) : []
 
   const handleLoadMore = () => {
-    if (data?.[size - 1]?.next && data?.[size - 1]?.next !== '') {
-      console.log(size + 1)
-      setSize(size + 1)
-      setHasNextPage(true)
-    } else {
-      setHasNextPage(false)
+    if (hasNextPage) {
+      fetchNextPage()
     }
   }
 
@@ -104,7 +111,7 @@ export default function MainPage() {
           </form>
           {/* List of Posts */}
           <div className="space-y-6">
-            {isLoading
+            {status !== 'success'
               ? undefined
               : posts.map((post: IPost) => (
                   <PostCard
@@ -120,12 +127,27 @@ export default function MainPage() {
           {hasNextPage && (
             <InView
               onChange={(inView) => {
-                if (inView) {
+                if (inView || data !== undefined) {
                   handleLoadMore()
                 }
               }}
             >
-              <h1 className="text-center">Loading...</h1>
+              <div className="flex justify-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="50"
+                  height="50"
+                  fill="currentColor"
+                  className="bi bi-arrow-repeat animate-spin"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z" />
+                  <path
+                    fillRule="evenodd"
+                    d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z"
+                  />
+                </svg>
+              </div>
             </InView>
           )}
         </section>

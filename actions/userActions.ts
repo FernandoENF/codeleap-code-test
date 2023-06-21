@@ -8,3 +8,9 @@ export function enterUsername(username: string) {
     },
   }
 }
+
+export function removeUsername() {
+  return {
+    type: 'REMOVE_USERNAME',
+  }
+}

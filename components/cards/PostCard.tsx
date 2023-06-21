@@ -22,6 +22,7 @@ const PostCard: FC<PostCardProps> = ({
   title,
   content,
   author,
+  // eslint-disable-next-line camelcase
   created_datetime,
   postId,
 }) => {

@@ -14,6 +14,10 @@ const user: Reducer<IUser> = (state = INITIAL_STATE, action) => {
         draft.username = username
         return draft
       }
+      case 'REMOVE_USERNAME': {
+        draft.username = ''
+        return draft
+      }
       default: {
         return draft
       }

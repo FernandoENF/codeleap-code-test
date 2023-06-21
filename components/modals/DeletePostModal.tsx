@@ -1,18 +1,29 @@
-import { FC, ReactNode, useContext, useEffect } from 'react'
+import { FC, useContext, useEffect } from 'react'
 import { Dialog } from '@headlessui/react'
 import Button from '@/components/buttons/Button'
-import { EditModalContext } from '@/components/providers/EditModalProvider'
 import { DeleteModalContext } from '@/components/providers/DeleteModalProvider'
 import { useSelector } from 'react-redux'
 import { IState } from '@/redux/store'
 import { IPost } from '@/types/postData'
+import { RemovePost } from '@/actions/postRequests'
+import { useQueryClient } from '@tanstack/react-query'
+import toast from 'react-hot-toast'
 
 interface DeletePostModalProps {}
 
 const DeletePostModal: FC<DeletePostModalProps> = () => {
+  const queryClient = useQueryClient()
   const { isOpen, setIsOpen } = useContext(DeleteModalContext)
 
   const post = useSelector<IState, IPost>((state) => state.post)
+
+  const handleDelete = () => {
+    RemovePost(post.id!).then(() => {
+      queryClient.invalidateQueries(['posts'])
+      setIsOpen(false)
+      toast.success('Post deleted successfully!')
+    })
+  }
 
   return (
     <Dialog
@@ -42,7 +53,9 @@ const DeletePostModal: FC<DeletePostModalProps> = () => {
             >
               Cancel
             </Button>
-            <Button variant={'danger'}>Delete</Button>
+            <Button variant={'danger'} onClick={() => handleDelete()}>
+              Delete
+            </Button>
           </div>
         </Dialog.Panel>
       </div>

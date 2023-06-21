@@ -9,6 +9,7 @@ This project was made for the code test challenge made by CodeLeap with the job 
 Besides the requirements of the test, I made additional features like:
 
 - Responsive layout
+- Back to top button
 - Infinite scroll
 - Login/Logout
 - Modal animations

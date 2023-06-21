@@ -1,15 +1,33 @@
-import { FC, ReactNode, useContext } from 'react'
+import { FC, useContext, useEffect } from 'react'
 import { Dialog } from '@headlessui/react'
 import Button from '@/components/buttons/Button'
 import Input from '@/components/inputs/Input'
 import TextArea from '@/components/inputs/TextArea'
 import { EditModalContext } from '@/components/providers/EditModalProvider'
-import { DeleteModalContext } from '@/components/providers/DeleteModalProvider'
+import { FieldValues, useForm } from 'react-hook-form'
+import { useSelector } from 'react-redux'
+import { IState } from '@/redux/store'
+import { IPost } from '@/types/postData'
 
 interface EditPostModalProps {}
 
 const EditPostModal: FC<EditPostModalProps> = () => {
   const { isOpen, setIsOpen } = useContext(EditModalContext)
+
+  const { register, reset } = useForm<FieldValues>({
+    defaultValues: {
+      id: undefined,
+      title: '',
+      content: '',
+    },
+  })
+
+  const post = useSelector<IState, IPost>((state) => state.post)
+
+  useEffect(() => {
+    reset(post)
+  }, [post])
+
   return (
     <Dialog
       open={isOpen ?? false}
@@ -29,8 +47,18 @@ const EditPostModal: FC<EditPostModalProps> = () => {
           <Dialog.Title className="text-[22px] font-bold">
             Edit item
           </Dialog.Title>
-          <Input label={'Title'} placeholder={'Hello world'} />
-          <TextArea label={'Content'} placeholder={'Content here'} />
+          <Input
+            label={'Title'}
+            placeholder={'Hello world'}
+            register={register}
+            name={'title'}
+          />
+          <TextArea
+            label={'Content'}
+            placeholder={'Content here'}
+            register={register}
+            name={'content'}
+          />
           <div className="flex justify-end space-x-8">
             <Button variant={'secondary'}>Cancel</Button>
             <Button variant={'success'}>Save</Button>

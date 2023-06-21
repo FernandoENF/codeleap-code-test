@@ -1,13 +1,19 @@
-import { FC, ReactNode, useContext } from 'react'
+import { FC, ReactNode, useContext, useEffect } from 'react'
 import { Dialog } from '@headlessui/react'
 import Button from '@/components/buttons/Button'
 import { EditModalContext } from '@/components/providers/EditModalProvider'
 import { DeleteModalContext } from '@/components/providers/DeleteModalProvider'
+import { useSelector } from 'react-redux'
+import { IState } from '@/redux/store'
+import { IPost } from '@/types/postData'
 
 interface DeletePostModalProps {}
 
 const DeletePostModal: FC<DeletePostModalProps> = () => {
   const { isOpen, setIsOpen } = useContext(DeleteModalContext)
+
+  const post = useSelector<IState, IPost>((state) => state.post)
+
   return (
     <Dialog
       open={isOpen ?? false}
@@ -28,7 +34,14 @@ const DeletePostModal: FC<DeletePostModalProps> = () => {
             Are you sure you want to delete this item?
           </Dialog.Title>
           <div className="flex justify-end space-x-8">
-            <Button variant={'secondary'}>Cancel</Button>
+            <Button
+              variant={'secondary'}
+              onClick={() => {
+                setIsOpen(false)
+              }}
+            >
+              Cancel
+            </Button>
             <Button variant={'danger'}>Delete</Button>
           </div>
         </Dialog.Panel>

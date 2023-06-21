@@ -11,6 +11,7 @@ const user: Reducer<IUser> = (state = INITIAL_STATE, action) => {
     switch (action.type) {
       case 'ENTER_USERNAME': {
         const { username } = action.payload.user
+        draft.username = username
         return draft
       }
       default: {

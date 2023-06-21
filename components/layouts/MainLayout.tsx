@@ -22,7 +22,7 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
   }, [dispatch, router])
 
   return (
-    <div className="flex w-[800px] max-w-full flex-col self-start">
+    <div className="relative flex w-[800px] max-w-full flex-col self-start">
       <header
         className="sticky top-0 flex w-full flex-wrap items-center justify-between
         gap-x-2 bg-blue-codeleap px-[37px] py-[27px] text-[22px] font-bold text-white"

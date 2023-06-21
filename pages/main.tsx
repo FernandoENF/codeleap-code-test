@@ -14,6 +14,7 @@ import { InView } from 'react-intersection-observer'
 import { CreatePost, GetPosts } from '@/actions/postRequests'
 import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
+import BackToTopButton from '@/components/buttons/BackToTopButton'
 
 export default function MainPage() {
   const router = useRouter()
@@ -140,6 +141,7 @@ export default function MainPage() {
             </InView>
           )}
         </section>
+        <BackToTopButton />
       </MainLayout>
     </RootLayout>
   )

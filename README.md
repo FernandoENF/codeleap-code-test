@@ -6,7 +6,7 @@ This project was made for the code test challenge made by CodeLeap with the job 
 
 ## ✨ Features
 
-Besides the requirements of the test, i made additional features like:
+Besides the requirements of the test, I made additional features like:
 
 - Responsive layout
 - Infinite scroll

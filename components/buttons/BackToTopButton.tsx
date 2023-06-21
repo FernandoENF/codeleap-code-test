@@ -3,7 +3,7 @@ import { FC, useEffect, useState } from 'react'
 interface BackToTopButtonProps {}
 
 const BackToTopButton: FC<BackToTopButtonProps> = () => {
-  const [showButton, setShowButton] = useState(true)
+  const [showButton, setShowButton] = useState(false)
 
   useEffect(() => {
     window.addEventListener('scroll', () => {

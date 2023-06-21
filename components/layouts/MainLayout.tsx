@@ -19,7 +19,8 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
     router.push('/').then(() => {
       dispatch(removeUsername())
     })
-  }, [dispatch])
+  }, [dispatch, router])
+
   return (
     <div className="flex w-[800px] max-w-full flex-col self-start">
       <header

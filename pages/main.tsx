@@ -50,18 +50,7 @@ export default function MainPage() {
     }
   }, [])
 
-  const {
-    status,
-    data,
-    error,
-    isFetching,
-    isFetchingNextPage,
-    isFetchingPreviousPage,
-    fetchNextPage,
-    fetchPreviousPage,
-    hasNextPage,
-    hasPreviousPage,
-  } = useInfiniteQuery(
+  const { status, data, fetchNextPage, hasNextPage } = useInfiniteQuery(
     ['posts'],
     ({ pageParam = 0 }) => {
       return GetPosts('/careers/?limit=10&offset=' + pageParam * 10)
